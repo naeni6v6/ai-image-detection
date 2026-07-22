@@ -19,7 +19,7 @@ Screened 8 Kaggle candidates, kept **5** after filtering for resolution consiste
 | [130k Real vs Fake Face](https://www.kaggle.com/datasets/shreyanshpatel1/130k-real-vs-fake-face) | fake + real | FLUX.dev · FLUX.pro · SDXL |
 | [FFHQ](https://www.kaggle.com/datasets/arnaud58/flickrfaceshq-dataset-ffhq) | real | — |
 
-**Total: 396,597 images.** A late expansion added 80,000 more (40K StyleGAN fakes + 40K FFHQ reals) via a shuffled, duplicate-excluded split script — every source-test `real` is disjoint from train/valid to avoid leakage.
+**Total: 396,597 images.** 
 
 
 
