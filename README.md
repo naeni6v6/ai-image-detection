@@ -1,16 +1,9 @@
 # 🔍 AI-Generated Face Detection with EfficientNetV2S
 
 Binary real / AI-generated face classification trained on ~400K images across five generation sources.
-The goal was never raw accuracy — it was **generalization to generators the model has never seen**.
 
-<br>
-
-## 📌 Why this matters
-
-In a PNAS study (Nightingale & Farid, 2022, n=315), people asked to tell AI faces from real ones scored **48.2%** — statistically indistinguishable from a coin flip.
-Meanwhile reported deepfake fraud losses went from $128M (2020–2023 combined) to $360M (2024) to **$1.1B (2025)** — roughly 7× in a single year.
-
-Human eyes no longer work as a filter. That's the gap this model targets.
+Humans score **48.2%** at this task — indistinguishable from a coin flip (Nightingale & Farid, PNAS 2022).
+So the goal was never raw accuracy — it was **generalization to generators the model has never seen**.
 
 <br>
 
@@ -28,7 +21,7 @@ Screened 8 Kaggle candidates, kept **5** after filtering for resolution consiste
 
 **Total: 396,597 images.** A late expansion added 80,000 more (40K StyleGAN fakes + 40K FFHQ reals) via a shuffled, duplicate-excluded split script — every source-test `real` is disjoint from train/valid to avoid leakage.
 
-*Dropped:* Human Faces (non-square aspect ratio), Celeb-DF v2 (video only), AI-Face-Dataset-3000 (resolution mismatch).
+
 
 **The evaluation split is the point.** Beyond a combined ID test set, each generation source gets its own test folder — and **FLUX/SDXL was deliberately excluded from training** so it functions as a true OOD set.
 
@@ -119,16 +112,14 @@ Python 3.10 · CUDA 12.6 · RTX 3060
 
 <br>
 
-## 🚧 Limitations & Next Steps
+## ⚠️ One result we don't fully trust
 
-- **Shortcut learning suspected** (see above) — needs cross-dataset validation with matched preprocessing
-- **GRAVEX is the weak point at 91.7%** — real/fake balance within that single source is uneven
-- **Faces only** — full bodies, backgrounds, and scenes are out of scope
+**OOD accuracy (99.6%) exceeding ID accuracy (97.8%) is not normal** — a model should do worse on unseen distributions, not better. Overfitting is ruled out (a memorizing model would collapse on OOD), which makes it more suspicious, not less.
 
-Planned: adding Midjourney and DALL·E families, source-diversified real images for honest cross-dataset evaluation, extending detection from faces to full images, and Grad-CAM visualization with a HuggingFace deployment.
+The likely cause is **shortcut learning**: each dataset carries its own fingerprint — compression artifacts, resize history, crop conventions — so the model may be reading the *dataset* rather than the *generator*. GRAVEX sitting 8 points below everything else points the same way.
 
-<br>
+Flagged as an open problem, not a win. Verifying it needs cross-dataset evaluation where
 
 ---
 
-<sub>Team 데릉데릉 (임효진, 김나연, 이제이, 공두현) · BDAS Big Data Analysis Society showcase · Baseline reference: Kaggle *Fake Face Detection with Keras* (Acc 0.987, MIT License)</sub>
+<sub> BDAS Big Data Analysis Society showcase · Baseline reference: Kaggle *Fake Face Detection with Keras* (Acc 0.987, MIT License)</sub>
