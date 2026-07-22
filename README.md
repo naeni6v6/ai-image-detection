@@ -1,6 +1,17 @@
-🔍 AI-Generated Face Detection
-<p align="center"> <img src="https://img.shields.io/badge/Model-EfficientNetV2S-0066CC?style=for-the-badge" alt="EfficientNetV2S"> <img src="https://img.shields.io/badge/OOD_Accuracy-99.6%25-success?style=for-the-badge" alt="OOD 99.6%"> <img src="https://img.shields.io/badge/AUC-0.9983-success?style=for-the-badge" alt="AUC 0.9983"> </p> <p align="center"> <img src="https://img.shields.io/badge/TensorFlow-FF6F00?logo=tensorflow&logoColor=white" alt="TensorFlow"> <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit"> <img src="https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white" alt="Python 3.10"> <img src="https://img.shields.io/badge/images-396K-lightgrey" alt="396K images"> </p>
+<h1 align="center">🔍 AI-Generated Face Detection</h1>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Model-EfficientNetV2S-0066CC?style=for-the-badge" alt="EfficientNetV2S">
+  <img src="https://img.shields.io/badge/OOD_Accuracy-99.6%25-success?style=for-the-badge" alt="OOD 99.6%">
+  <img src="https://img.shields.io/badge/AUC-0.9983-success?style=for-the-badge" alt="AUC 0.9983">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/TensorFlow-FF6F00?logo=tensorflow&logoColor=white" alt="TensorFlow">
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white" alt="Python 3.10">
+  <img src="https://img.shields.io/badge/images-396K-lightgrey" alt="396K images">
+</p>
 Binary real / AI-generated face classification trained on ~400K images across five generation sources.
 
 Humans score **48.2%** at this task — indistinguishable from a coin flip (Nightingale & Farid, PNAS 2022).
