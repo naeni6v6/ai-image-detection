@@ -1,0 +1,8 @@
+.git
+.env*
+.cache
+*.ipynb
+*.keras
+data
+docs
+dist

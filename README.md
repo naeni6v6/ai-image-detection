@@ -153,6 +153,17 @@ Highlights the face regions that contributed most to the verdict (red = high, bl
 
 <br>
 
+## 📂 Repository
+
+```
+model/   Training notebook, local inference server, ONNX conversion, experiments & results
+web/     Fakit web service and Chrome extension (in-browser ONNX inference)
+video/   Video detection model (frame features + RBF classifiers)
+assets/  README figures
+```
+
+<br>
+
 ## 🛠️ Tech Stack
 
 Python · PyTorch · timm · EfficientNetV2S · BlazeFace · Grad-CAM · ONNX Runtime Web · Chrome Extension · Vercel
