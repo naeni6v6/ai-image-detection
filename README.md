@@ -39,23 +39,6 @@ and testing on generators the model never trained on.
 
 <br>
 
-## 🔎 Finding the Real Performance
-
-**1. AUC 0.99 was data leakage**
-The first model scored AUC 0.99 — too good to trust. Public datasets turned out to share the same images:
-**~128K duplicates** landed in both train and test. Removed them with **dHash** near-duplicate detection and re-split train / valid / test.
-
-**2. The model was reading the file, not the face**
-Using only file metadata (PNG or not, JPEG quantization table, bytes per pixel) — without looking at the image at all —
-real / fake could be classified with up to **90%** accuracy. A shortcut.
-→ **JPEG re-encoding + face crop** remove format and framing cues so the model judges the face itself.
-
-**3. Seen generators ≠ real accuracy**
-Leave-One-Generator-family-Out (LOGO): train without one family (GAN / Diffusion / manipulation), test only on it.
-Seen families scored **96%+**, but unseen families fell to **~50%** — a coin flip.
-
-<br>
-
 ## 🧠 Model
 
 Instead of memorizing each generator's fingerprint, the model is taught traces common to *any* generator using **pseudo-fakes** made from real photos:
@@ -77,11 +60,32 @@ image → BlazeFace face detection → 2× crop → 256×256 preprocessing → E
 
 ## 📊 Results
 
+### Final model — independent test set (20,000 images)
+
 <table>
 <tr>
 <td valign="top">
 
-**Unseen Diffusion generators (LOGO AUC)**
+| Metric | Score |
+|---|---|
+| Accuracy | **95.2%** |
+| Fake recall | 92.8% |
+| Real recall | 97.5% |
+
+</td>
+<td valign="top">
+<img src="assets/confusion_matrix.png" alt="Confusion matrix" width="420">
+</td>
+</tr>
+</table>
+
+### Unseen Diffusion generators (LOGO)
+
+Diffusion was left out of training entirely, then tested only on Diffusion generators.
+
+<table>
+<tr>
+<td valign="top">
 
 | Training | AUC |
 |---|---|
@@ -89,23 +93,32 @@ image → BlazeFace face detection → 2× crop → 256×256 preprocessing → E
 | + VAE | 0.876 |
 | **+ VAE + SBI** | **0.935** |
 
-Stable Diffusion · SDXL · FLUX Dev · FLUX Pro — all **AUC 0.92+**
-
-<br>
-
-**Final model**
-
-| Metric | Score |
-|---|---|
-| Accuracy (independent 20,000 images) | **95.2%** |
-| Unseen Diffusion AUC | **0.935** |
+All 4 unseen generators reach **AUC 0.92+**
 
 </td>
 <td valign="top">
-<img src="https://raw.githubusercontent.com/naeni6v6/ai-image-detection/develop/results/presentation_charts/1_unseen_diffusion_auc.png" alt="Unseen diffusion AUC" width="520">
+<img src="assets/auc_by_generator.png" alt="ROC-AUC by unseen diffusion generator" width="460">
 </td>
 </tr>
 </table>
+
+### Grad-CAM — why the model decided
+
+<p align="center">
+  <img src="assets/gradcam_example.png" alt="Grad-CAM example" width="720">
+</p>
+
+Highlights the face regions that contributed most to the verdict (red = high, blue = low).
+
+<br>
+
+## 🔎 Finding the Real Performance
+
+| Problem | Finding | Fix |
+|---|---|---|
+| **Data leakage** | First AUC 0.99 — ~128K duplicate images shared across train and test | dHash de-duplication, re-split |
+| **Shortcut learning** | File metadata alone (PNG, JPEG quantization, bytes/pixel) classified up to **90%** | JPEG re-encoding + face crop |
+| **Seen ≠ real accuracy** | LOGO: seen families **96%+**, unseen families **~50%** | VAE · SBI pseudo-fakes |
 
 <br>
 
@@ -143,9 +156,3 @@ Stable Diffusion · SDXL · FLUX Dev · FLUX Pro — all **AUC 0.92+**
 ## 🛠️ Tech Stack
 
 Python · PyTorch · timm · EfficientNetV2S · BlazeFace · Grad-CAM · ONNX Runtime Web · Chrome Extension · Vercel
-
-<br>
-
----
-
-<sub>BDAS Big Data Analysis Society · Team <b>데릉데릉</b> — 임효진 · 김나연 · 공두현 · 이제이 · Advisor: Prof. 남진현 · 2026.03 – 2026.11</sub>
